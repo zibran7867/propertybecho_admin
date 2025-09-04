@@ -1,0 +1,189 @@
+.login-section {
+  height: 100vh;
+  width: 100%;
+  // background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  
+
+  .bg-img {
+    position: fixed;
+    bottom: -500px;
+    left: -500px;
+    max-width: 1000px;
+    width: 1000px;
+    height: 1000px;
+    z-index: 0;
+    opacity: 0.5s;
+    animation: rotate 20s linear infinite;
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(359deg);
+      }
+    }
+  }
+
+  .login-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .login-img-section {
+      text-align: center;
+
+      .login-img {
+        max-width: 30rem;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-heading {
+        margin-top: 5px;
+
+        h3 {
+          font-weight: 600;
+        }
+      }
+    }
+
+    .login-form {
+      max-width: 450px;
+      width: 100%;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+      border: none;
+      padding: 50px 40px;
+      z-index: 1;
+
+      .login-form-content {
+        overflow: visible;
+      }
+
+      .back-icon {
+        font-size: 22px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .card-body {
+        margin-top: 40px;
+
+        .form-data {
+          margin-top: 30px;
+
+          .otp-field {
+            input {
+              padding: 10px;
+            }
+          }
+
+          input {
+            outline: none;
+            border: none;
+            border-radius: 0px;
+            padding: 10px 10px 10px 30px;
+            position: relative;
+
+            &:focus {
+              // border-bottom: 2px solid $secondary !important;
+              box-shadow: none;
+            }
+
+            &:active {
+              // border-bottom: 2px solid $secondary !important;
+              box-shadow: none;
+            }
+          }
+
+          .submit-btn {
+            background: red !important;
+          }
+
+          .form-group.forgot {
+            text-align: right;
+          }
+
+          .form-group {
+            position: relative;
+
+            .form-icon {
+              position: absolute;
+              top: 12px;
+              left: 0;
+              z-index: 1;
+            }
+
+            .eye-icon {
+              position: absolute;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%);
+              z-index: 1;
+            }
+
+            svg {
+              font-size: 22px;
+            }
+          }
+
+          .text-muted {
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+
+        .card-title h4 {
+          color: #000;
+          text-align: left;
+          font-weight: 600;
+        }
+
+        .button {
+          // background: $btn-color !important;
+          width: 100%;
+          margin-top: 50px;
+          padding: 10px 0px;
+          border-radius: 15px;
+        }
+
+        .otp-field {
+          margin-top: 30px;
+
+          input {
+            outline: none;
+            border: none;
+            border-radius: 0px;
+            // border-bottom: 2px solid $gray;
+            flex-grow: 1;
+            margin: 0px 10px;
+
+            &:focus {
+              // border-bottom: 2px solid $secondary;
+              box-shadow: none;
+            }
+
+            &:active {
+              // border-bottom: 2px solid $secondary;
+              box-shadow: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+.custom-table {
+  overflow-x: auto;
+  > div:first-child {
+    box-shadow: none;
+    padding: 0;
+    // border-radius: 0px;
+  }
+
+  .sidebar-icon svg {
+    font-size: 20px !important;
+    object-fit: contain;
+  }
+
+  table thead {
+    tr:first-child {
+      height: 50px !important;
+    }
+  }
+
+  table tbody {
+    tr {
+      height: 60px;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.226);
+
+      td {
+        white-space: nowrap !important;
+        &.space-normal {
+          white-space: normal !important;
+        }
+        .user-row {
+          div {
+            gap: 5px;
+            span {
+              &:nth-child(2) {
+                font-size: 14px;
+                color: #9c9c9c;
+              }
+              &:nth-child(1) {
+                font-weight: 500;
+              }
+            }
+          }
+        }
+        span {
+          font-size: 16px;
+        }
+
+        .drop-down-btn {
+          padding: 10px;
+          justify-content: flex-start;
+          gap: 5px;
+
+          &[aria-expanded="true"] {
+            img {
+              transform: rotate(90deg);
+            }
+          }
+
+          svg {
+            min-width: 15px !important;
+            min-height: 15px !important;
+          }
+          img {
+            width: 6px;
+            transition: all 0.3s ease-in-out;
+            transform: rotate(-90deg);
+          }
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .edit-icon path {
+      fill: chocolate;
+    }
+
+    .chip {
+      span {
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+.table-pagination {
+  // label{
+  //   width: 40%;
+  // }
+
+  .pagination-select {
+    width: 85px !important;
+    margin-left: 5px;
+    // border: 1px solid gray;
+    border-radius: 10px;
+    height: 40px !important;
+
+    button {
+      // background: 240 5% 96%;
+      height: 20px !important;
+      padding: 2px;
+
+      div {
+        padding-top: 0px;
+      }
+
+      span {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.drop-down-btn-li {
+  span {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 0px;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .custom-table {
+    overflow-x: auto;
+
+    // table {
+    //   width: 1300px;
+    // }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #dfdfdf;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #c2c2c2;
+    }
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .table-pagination {
+    // flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+  }
+}

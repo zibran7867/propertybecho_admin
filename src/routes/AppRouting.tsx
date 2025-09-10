@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Routing } from "./routing";
 
 
+
 const PublicLayout = lazy(() => import("../layout/PublicLayout"));
 const MainLayout = lazy(() => import("../layout/MainLayout"));
 
@@ -11,6 +12,8 @@ const Login = lazy(() => import("../pages/Account/Login"));
 const ForgotPassword = lazy(() => import("../pages/Account/ForgotPassword"));
 
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
+const AddressManagement = lazy(() => import("../pages/Address_Management/AddressManagement"));
+const BuilderManagement = lazy(() => import("../pages/Builder_Management/BuilderManagement"));
 
 const ErrorPage = lazy(() => import("../pages/Account/ErrorPage"));
 const NotFound = lazy(() => import("../pages/Account/NotFound"));
@@ -36,6 +39,14 @@ const routes = createBrowserRouter([
   {
     path: Routing.Dashboard,
     element: <MainLayout>{privateRoute(Dashboard)}</MainLayout>,
+  },
+  {
+    path: Routing.Address_Management,
+    element: <MainLayout>{privateRoute(AddressManagement)}</MainLayout>,
+  },
+  {
+    path: Routing.Builder_Management,
+    element: <MainLayout>{privateRoute(BuilderManagement)}</MainLayout>,
   },
   {
     path: Routing.ErrorPage,

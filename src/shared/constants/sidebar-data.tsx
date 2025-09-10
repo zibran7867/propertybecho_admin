@@ -17,5 +17,17 @@ export const sidebarRoutes: ISidebarData[] = [
     name: "Dashboard",
     image: "/images/Dashboard.svg",
   },
+  {
+    module: Modules.Dashboard,
+    route: Routing.Address_Management,
+    name: "Address Management",
+    image: "/images/Dashboard.svg",
+  },
+  {
+    module: Modules.Dashboard,
+    route: Routing.Builder_Management,
+    name: "Builder Management",
+    image: "/images/Dashboard.svg",
+  },
 ];
 

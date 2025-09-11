@@ -24,7 +24,7 @@ const Sidebar = () => {
   return (
     <div className='sidebar bg-white border-r-2 border-primary '>
 
-      <div className="sidebar-header ">
+      <div className="sidebar-header">
         <img src="/images/property_bacho_logo.png"  alt='img not found' className='w-52 h-8' />
         {/* <p className='text-xl'>Property Bacho</p> */}
       </div>

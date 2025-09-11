@@ -24,10 +24,11 @@ import { IoIosVideocam } from "react-icons/io";
 import { IoCall } from "react-icons/io5";
 import { PiChatCircleTextFill, PiInfoBold } from 'react-icons/pi';
 import { Link } from "react-router-dom";
-import StarRatings from 'react-star-ratings';
+// import StarRatings from 'react-star-ratings';
+import { Rating } from "react-simple-star-rating";
 import { IColumn } from "../../models/base-type";
 import { handlePageDetailChange, truncatedText } from "../../utils/commonFunctions";
-import { ProviderStatus, ProviderStatusColor, WithdrawalPendingStatus, WithdrawalPendingStatusColor, WithdrawalStatus, WithdrawalStatusColor } from "../enums/status";
+import { ActiveOrInactive, ActiveOrInactiveColor, ProviderStatus, ProviderStatusColor, WithdrawalPendingStatus, WithdrawalPendingStatusColor, WithdrawalStatus, WithdrawalStatusColor } from "../enums/status";
 import { PageActions } from "../enums/table-page-actions";
 import './custom.scss';
 import TableFooter from "./TableFooter";
@@ -94,63 +95,65 @@ interface CustomTableProps {
     Edit?: boolean;
     Delete?: boolean;
     View?: boolean;
-    sortRef: React.MutableRefObject<SortDescriptor>;
-    formRef: React.MutableRefObject<any>;
-    pageRef: React.MutableRefObject<{ page: number; limit: number }>;
-    totalCountRef: React.MutableRefObject<number>;
-    onActiveDeactiveClickReceived: (row: any) => void;
-    onSendNotification: (row: any) => void;
-    onInfoClickReceived: (row: any) => void;
-    onEditClickReceived: (row: any) => void;
-    onDeleteClickReceived: (id: number) => void;
-    onViewClickReceived: (id: number) => void;
-    onSetPageDetailsReceived: (a: any, b: any) => void;
-    onSortDetailsReceived: (formData: any, data: SortDescriptor) => void;
-    onStatusChangeClickReceived: (userId: string, newStatus: string) => void;
-    onStatusChangeRemarkClickReceived: (user: any, newStatus: string) => void;
+    sortRef?: React.MutableRefObject<SortDescriptor>;
+    formRef?: React.MutableRefObject<any>;
+    pageRef?: React.MutableRefObject<{ page: number; limit: number }>;
+    totalCountRef?: React.MutableRefObject<number>;
+    onActiveDeactiveClickReceived?: (row: any) => void;
+    onSendNotification?: (row: any) => void;
+    onInfoClickReceived?: (row: any) => void;
+    onEditClickReceived?: (row: any) => void;
+    onDeleteClickReceived?: (id: number) => void;
+    onViewClickReceived?: (id: number) => void;
+    onSetPageDetailsReceived?: (a: any, b: any) => void;
+    onSortDetailsReceived?: (formData: any, data: SortDescriptor) => void;
+    onStatusChangeClickReceived?: (userId: string, newStatus: string) => void;
+    onStatusChangeRemarkClickReceived?: (user: any, newStatus: string) => void;
 }
 
 const CustomTable: React.FC<CustomTableProps> = (props) => {
     const { columns, data, ActiveDeActiveSwitch, Info, Send, Edit, Delete, View, sortRef, formRef, pageRef, totalCountRef } = props;
 
     const handleActiveDeactiveClick = (row: any) => {
-        props.onActiveDeactiveClickReceived(row);
+        props.onActiveDeactiveClickReceived && props.onActiveDeactiveClickReceived(row);
     };
 
     const handleSendNotificationClick = (row: any) => {
-        props.onSendNotification(row);
+        props.onSendNotification && props.onSendNotification(row);
     };
 
     const handleInfoClick = (row: any) => {
-        props.onInfoClickReceived(row);
+        props.onInfoClickReceived && props.onInfoClickReceived(row);
     };
 
     const handleEditClick = (row: any) => {
-        props.onEditClickReceived(row);
+        props.onEditClickReceived && props.onEditClickReceived(row);
     };
 
     const handleDeleteClick = (id: number) => {
-        props.onDeleteClickReceived(id);
+        props.onDeleteClickReceived && props.onDeleteClickReceived(id);
     };
 
     const handleViewClick = (id: number) => {
-        props.onViewClickReceived(id);
+        props.onViewClickReceived && props.onViewClickReceived(id);
     };
 
     const handleSetPageDetails = (a: any, b: any) => {
-        props.onSetPageDetailsReceived(a, b);
+        props.onSetPageDetailsReceived && props.onSetPageDetailsReceived(a, b);
     };
 
     const handleSorting = (formData: any, data: SortDescriptor) => {
-        props.onSortDetailsReceived(formData, data);
+        props.onSortDetailsReceived && props.onSortDetailsReceived(formData, data);
     };
 
     const handleStatusChangeClick = (userId: string, newStatus: string) => {
-        props.onStatusChangeClickReceived(userId, newStatus);
+        console.log("New Status ", newStatus);
+        
+        props.onStatusChangeClickReceived && props.onStatusChangeClickReceived(userId, newStatus);
     };
 
     const handleStatusChangeRemarkClick = (user: any, newStatus: string) => {
-        props.onStatusChangeRemarkClickReceived(user, newStatus);
+        props.onStatusChangeRemarkClickReceived && props.onStatusChangeRemarkClickReceived(user, newStatus);
     };
 
     const renderCell = React.useCallback((user: any, columnKey: any) => {
@@ -159,7 +162,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
         switch (columnKey) {
             case "index":
                 return (
-                    cellValue + ((pageRef.current.page - 1) * pageRef.current.limit)
+                    cellValue + ((pageRef?.current?.page ? pageRef.current.page - 1 : 0) * (pageRef?.current?.limit ?? 0))
                 );
             case "full_name":
                 return (
@@ -170,25 +173,25 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                         name={cellValue}
                     />
                 );
-            case "name":
-                return (
-                    <User
-                        className="capitalize user-row"
-                        avatarProps={{ radius: "lg", src: user?.image }}
-                        name={cellValue}
-                    >
-                    </User>
-                );
-            case "title":
-                return (
-                    <User
-                        className="capitalize user-row"
-                        avatarProps={{ radius: "lg", src: user?.image }}
-                        description={truncatedText(user?.description, 50)}
-                        name={cellValue}
-                    >
-                    </User>
-                );
+            // case "name":
+            //     return (
+            //         <User
+            //             className="capitalize user-row"
+            //             avatarProps={{ radius: "lg", src: user?.image }}
+            //             name={cellValue}
+            //         >
+            //         </User>
+            //     );
+            // case "title":
+            //     return (
+            //         <User
+            //             className="capitalize user-row"
+            //             avatarProps={{ radius: "lg", src: user?.image }}
+            //             description={truncatedText(user?.description, 50)}
+            //             name={cellValue}
+            //         >
+            //         </User>
+            //     );
             case "subCategoryLink":
                 return (
                     <Link to={cellValue} className="underline text-blue-600">
@@ -219,14 +222,58 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                 return (
                     `${cellValue} min.`
                 );
+            // case "rating":
+            //     return (
+            //         <StarRatings
+            //             rating={user?.rating}
+            //             starDimension="20px"
+            //             starSpacing="2px"
+            //             starRatedColor="#FE8F00"
+            //         />
+            //     );
             case "rating":
                 return (
-                    <StarRatings
-                        rating={user?.rating}
-                        starDimension="20px"
-                        starSpacing="2px"
-                        starRatedColor="#FE8F00"
+                    <Rating
+                        readonly
+                        size={20}
+                        allowFraction
+                        initialValue={user?.rating ?? 0}
+                        SVGstyle={{ display: "inline" }}
+                        fillColor="#FE8F00"
                     />
+                );
+
+            case "areaDropdown":
+                return (
+                    <Dropdown>
+                        <DropdownTrigger>
+                            <Button
+                                variant="bordered"
+                                className="capitalize drop-down-btn min-w-[110px]"
+                            >
+                                <CgRadioChecked color={ActiveOrInactiveColor[user?.status as keyof typeof ActiveOrInactiveColor]} />
+                                {user?.status}
+                                <img src="/images/back.svg" alt='' />
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            aria-label="selection"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
+                            selectedKeys={user?.status}
+                            onSelectionChange={(e: any) => handleStatusChangeClick(user?.id, e?.currentKey)}
+                        >
+                            {Object.keys(ActiveOrInactive).map((status) => {
+                                const providerColor = Object.keys(ActiveOrInactiveColor).find((color) => (color === ActiveOrInactive[status as keyof typeof ActiveOrInactive]));
+                                return (
+                                    <DropdownItem textValue={ActiveOrInactive[status as keyof typeof ActiveOrInactive]} key={ActiveOrInactive[status as keyof typeof ActiveOrInactive]} className="drop-down-btn-li">
+                                        {providerColor && <CgRadioChecked color={ActiveOrInactiveColor[providerColor as keyof typeof ActiveOrInactiveColor]} />}
+                                        {status}
+                                    </DropdownItem>);
+                            })}
+                        </DropdownMenu>
+                    </Dropdown>
                 );
             case "statusDropdown":
                 return (
@@ -292,9 +339,9 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                                 })}
                             </DropdownMenu>
                         </Dropdown>
-                            : 
+                            :
                             <Chip className="capitalize chip" color={statusColorMap[user.status as keyof typeof statusColorMap] as "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined} size="sm" variant="flat">
-                            {user?.status}
+                                {user?.status}
                             </Chip>}
                     </>
                 );
@@ -340,7 +387,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                         </Tooltip>}
                         {Edit && <Tooltip content="Edit">
                             <span
-                                className="text-lg text-default-400 cursor-pointer active:opacity-50 sidebar-icon bg-primary-200"
+                                className="text-lg text-default-400 cursor-pointer active:opacity-50 sidebar-icon "
                                 onClick={() => handleEditClick(user)}
                             >
                                 <AiOutlineEdit className="edit-icon" />
@@ -348,7 +395,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                         </Tooltip>}
                         {Delete && <Tooltip color="danger" content="Delete">
                             <span
-                                className="text-lg text-danger cursor-pointer active:opacity-50 sidebar-icon bg-danger-50"
+                                className="text-lg text-danger cursor-pointer active:opacity-50 sidebar-icon"
                                 onClick={() => handleDeleteClick(user?.id)}
                             >
                                 <AiOutlineDelete />
@@ -356,7 +403,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                         </Tooltip>}
                         {View && <Tooltip color="foreground" content="Details">
                             <span
-                                className="text-lg text-foreground cursor-pointer active:opacity-50 sidebar-icon bg-foreground-200"
+                                className="text-lg text-foreground cursor-pointer active:opacity-50 sidebar-icon"
                                 onClick={() => handleViewClick(user?.id)}
                             >
                                 <AiOutlineEye />
@@ -372,6 +419,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
     return (
         <>
             <Table
+                // topContent="Builder Management"
                 isCompact
                 removeWrapper
                 className="custom-table"
@@ -381,13 +429,14 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                         wrapper: "after:bg-foreground after:text-background text-background",
                     },
                 }}
-                sortDescriptor={sortRef.current}
+                sortDescriptor={sortRef?.current}
                 onSortChange={(sortData: SortDescriptor) => handleSorting(
-                    formRef.current?.values,
+                    formRef?.current?.values,
                     sortData
                 )}
             >
                 <TableHeader columns={columns}>
+
                     {(column: IColumn) => (
                         <TableColumn
                             key={column?.data}
@@ -412,25 +461,25 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
             </Table>
             <TableFooter
                 totalCount={totalCountRef?.current}
-                page={pageRef.current?.page}
-                rowsPerPage={pageRef.current?.limit}
+                page={pageRef?.current?.page}
+                rowsPerPage={pageRef?.current?.limit}
                 onPageChange={(page) =>
                     handleSetPageDetails(
-                        formRef.current?.values,
+                        formRef?.current?.values,
                         handlePageDetailChange(
                             PageActions.PageChange,
                             page,
-                            pageRef?.current
+                            pageRef?.current ?? { page: 1, limit: 10 }
                         )
                     )
                 }
                 onRowsPerPageChange={(rowsPerPage) =>
                     handleSetPageDetails(
-                        formRef.current?.values,
+                        formRef?.current?.values,
                         handlePageDetailChange(
                             PageActions.RowsPerPageChange,
                             rowsPerPage,
-                            pageRef?.current
+                            pageRef?.current ?? { page: 1, limit: 10 }
                         )
                     )
                 }

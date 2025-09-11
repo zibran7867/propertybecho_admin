@@ -11,10 +11,10 @@ import { IRoutesModel } from "../models/routes";
 import { ApiResponseModel } from "./api";
 import httpService from "./http-service";
 
-const endPointBaseURL = `admin`;
+const endPointBaseURL = `auth`;
 
 const login = async (requestBody: ILoginRequestModel): Promise<AxiosResponse<ApiResponseModel<ILoginResponseModel>>> =>
-    httpService.post<ApiResponseModel<ILoginResponseModel>>(`${endPointBaseURL}/login/`, requestBody);
+    httpService.post<ApiResponseModel<ILoginResponseModel>>(`${endPointBaseURL}/admin/login/`, requestBody);
 
 const logout = async (): Promise<AxiosResponse<boolean>> => httpService.get<boolean>(`${endPointBaseURL}/logout/`);
 

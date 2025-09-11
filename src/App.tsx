@@ -11,7 +11,7 @@ function App() {
   return (
     <Provider store={store}>
       <Suspense fallback={<Spinner />}>
-        <Toaster position="bottom-right" />
+        <Toaster position="top-right" />
         <HeroUIProvider>
           <AppRouting />
         </HeroUIProvider>

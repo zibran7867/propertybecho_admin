@@ -36,8 +36,7 @@ export interface IOrder {
 }
 
 export interface SearchResult<T> {
-    results: T[];
-    count: number;
+    rows: T[];
     total: number;
 }
 

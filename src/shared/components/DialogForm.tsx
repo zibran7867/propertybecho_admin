@@ -17,7 +17,7 @@ const DialogForm: React.FC<IDialogFormProps> = ({
 }) => {
     return (
         <Modal
-            className='overflow-y-visible !mt-[250px]'
+            className='overflow-y-visible'
             backdrop="blur"
             size={size} 
             isOpen={openDialog}

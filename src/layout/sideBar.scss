@@ -141,11 +141,13 @@
           filter: brightness(0) saturate(100%) invert(78%) sepia(29%) saturate(5714%) hue-rotate(359deg) brightness(104%) contrast(106%);
         }
 
-        >span {
+        >
+        span {
           font-size: 18px;
           display: inline-block;
           margin-right: 8px;
-          color: white;
+          // color: white;
+          color: black;
         }
 
         &:hover {

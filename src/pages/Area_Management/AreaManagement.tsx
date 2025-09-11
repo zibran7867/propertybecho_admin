@@ -1,32 +1,31 @@
 import React from "react";
-import { Routing } from "../../routes/routing";
 import { IColumn, Pagination } from "../../models/base-type";
-import { Button, SortDescriptor } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
-import builderService from "../../services/builder-service";
-import toast from "react-hot-toast";
-import CustomTable from "../../shared/components/CustomTable";
-import { PAGINATION } from "../../shared/constants/pagination";
+import CustomTable from "../../shared/components/CustomTable"
+import { Button } from "@heroui/react";
 import { Digits } from "../../shared/enums/digits";
-import ConfirmBox from "../../shared/components/ConfirmBox";
-import { BuilderModel } from "../../models/builder";
+import { PAGINATION } from "../../shared/constants/pagination";
 import DialogForm from "../../shared/components/DialogForm";
-import BuilderForm from "./BuilderForm";
+import ConfirmBox from "../../shared/components/ConfirmBox";
+import areaService from "../../services/area-service";
+import toast from "react-hot-toast";
+import { AreaModel } from "../../models/area";
+import AreaForm from "./AreaForm";
 
-const BuilderManagement = () => {
-  const navigate = useNavigate();
+const AreaManagement = () => {
   const [data, setData] = React.useState([]);
-  const [builderId, setBuilderId] = React.useState<number | null>(null);
+  const [areaId, setAreaId] = React.useState<number | null>(null);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [openConfirmDialogDelete, setOpenConfirmDialogDelete] = React.useState(false);
-
+  const areaRef = React.useRef<AreaModel>(null);
+  
   // Refs for pagination/sorting
-  const totalCountRef = React.useRef(Digits.One);
+  // const totalCountRef = React.useRef(Digits.One);
   const countRef = React.useRef(Digits.Zero)
   const pageRef = React.useRef<Pagination>(PAGINATION);
-  const sortRef = React.useRef<SortDescriptor>({ column: "", direction: "ascending" });
-  const formRef = React.useRef(null);
-  const builderRef = React.useRef<BuilderModel>(null);
+  // const sortRef = React.useRef<SortDescriptor>({ column: "", direction: "ascending" });
+  // const formRef = React.useRef(null);
+
+
   // DialogForm
   const handleDialogOpen = () => setOpenDialog(true);
   const handleDialogClose = () => setOpenDialog(false);
@@ -41,78 +40,75 @@ const BuilderManagement = () => {
     { name: "Actions", data: "actions", width: 150, orderable: false },
   ];
 
-  const getAllBuilders = async () => {
-    await builderService
-      .getAllBuilders()
+  const getAllArea = async () => {
+    await areaService
+      .getAllAreas()
       .then((response) => {
         const responseData: any = response?.data;
-        console.log("Builder responseData", responseData)
+        console.log("Area responseData", responseData)
         setData(responseData.data.rows)
         if (response?.data?.status) {
-          // toast.success("Get all builder successfully");
+          // toast.success(response?.data?.message);
         }
       })
       .catch((error: Error) => console.log(error?.message));
   }
 
-    const handleStatusChange = async (userId : string, status: string) => {
-    await builderService
-      .UpdateStatusBuilder(userId, {status})
+  const handleStatusChange = async (userId : string, status: string) => {
+    await areaService
+      .UpdateAreaStatus(userId, {status})
       .then((response) => {
-        const responseData: any = response;
-        console.log("handleStatusChange ~ responseData:", responseData)
+        // const responseData: any = response;
         if (response?.data?.status) {
-          getAllBuilders()
+          getAllArea()
           toast.success("Update status successfully");
         }
       })
       .catch((error: Error) => console.log(error?.message));
   }
 
-
   // Calling get all area api
   React.useEffect(() => {
-    getAllBuilders();
+    getAllArea();
   }, [])
 
-  const onBuilderAdd = () => {
+  const onAreaAdd = () => {
     handleDialogClose();
-    getAllBuilders();
+    getAllArea();
   };
 
-
   const handleAddClick = () => {
-    builderRef.current = null;
+    areaRef.current = null;
     handleDialogOpen();
   };
 
-  const handleEditClick = (builder: BuilderModel) => {
-    builderRef.current = builder;
+  const handleEditClick = (area: AreaModel) => {
+    areaRef.current = area;
     handleDialogOpen();
   };
 
   const handleDeleteClick = (id: number) => {
-    setBuilderId(id);
+    setAreaId(id);
     handleConfirmDialogOpenForDelete();
   };
 
   const handleDeleteConfirm = () => {
-    if (builderId !== null) {
-      handleCustomerDelete(builderId);
-      getAllBuilders()
+    if (areaId !== null) {
+      handleCustomerDelete(areaId);
+      getAllArea();
     }
-    setBuilderId(null);
+    setAreaId(null);
     handleConfirmDialogCloseForDelete();
   };
 
   const handleCustomerDelete = async (id: number) => {
-    await builderService
-      .DeleteBuilder(id)
+    await areaService
+      .DeleteArea(id)
       .then(async (response) => {
         if (response?.data?.status) {
           if (countRef.current === 1) pageRef.current = { ...pageRef.current, page: pageRef.current?.page - 1 }
-          getAllBuilders();
-          toast.success("Delete builder successfully");
+          getAllArea();
+          toast.success(response?.data?.message);
         }
       })
       .catch((error: Error) => console.log(error?.message));
@@ -120,16 +116,14 @@ const BuilderManagement = () => {
 
   return (
     <section>
-
       <div className='flex justify-between items-center w-full mb-5'>
-        <h2 className="text-2xl font-semibold">Builder Management</h2>
+        <h2 className="text-2xl font-semibold">Area Management</h2>
         <div className='flex justify-between items-center gap-4'>
           <Button variant="solid" color='primary' className='text-white' onClick={handleAddClick}>
             Add
           </Button>
         </div>
       </div>
-
 
       <CustomTable
         columns={columns}
@@ -139,26 +133,36 @@ const BuilderManagement = () => {
         Delete
         onDeleteClickReceived={handleDeleteClick}
         onStatusChangeClickReceived={handleStatusChange}
+      // onViewClickReceived={handleViewClick}
+      // totalCountRef={totalCountRef}
+      // pageRef={pageRef}
+      // formRef={formRef}
+      // sortRef={sortRef}
+      />
+
+
+      <DialogForm
+        size='2xl'
+        openDialog={openDialog}
+        handleDialogClose={handleDialogClose}
       />
 
       <DialogForm
         size='2xl'
-        title={`${builderRef.current?.id ? 'Update' : 'Add'} Builder`}
+        title={`${areaRef.current?.id ? 'Update' : 'Add'} Area`}
         openDialog={openDialog}
         handleDialogClose={handleDialogClose}
-        bodyContent={<BuilderForm
-          builder={builderRef.current}
-          onBuilderAdd={onBuilderAdd}
+        bodyContent={<AreaForm
+          area={areaRef.current}
+          onAreaAdd={onAreaAdd}
           handleDialogClose={handleDialogClose}
         />}
       />
 
-
       <ConfirmBox
-        title="Delete Builder"
+        title="Delete Area"
         openDialog={openConfirmDialogDelete}
         handleDialogClose={handleConfirmDialogCloseForDelete}
-        // message={messages}
         handleSuccess={handleDeleteConfirm}
       />
 
@@ -166,4 +170,4 @@ const BuilderManagement = () => {
   )
 }
 
-export default BuilderManagement
+export default AreaManagement

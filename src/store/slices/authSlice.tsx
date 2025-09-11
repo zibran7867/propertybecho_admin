@@ -18,11 +18,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     adminLogin: (state: IAuthState, action: PayloadAction<ILoginResponseModel>) => {
+      console.log('action', action)
       state.id = action.payload.id ?? "";
       state.email = action.payload.email ?? "";
       state.phone = action.payload.phone ?? "";
       state.role = action.payload.role ?? "";
-      state.token = action.payload.token;
+      state.token = action.payload.authToken;
       state.first_name = action.payload.first_name;
       state.last_name = action.payload.last_name;
       state.is_active = action.payload.is_active ?? false;

@@ -16,8 +16,8 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const initialValues: ILoginRequestModel = {
-    email: "admin@gmail.com",
-    password: "admin@1234",
+    email: "zibranshaikh@gmail.com",
+    password: "123456789",
   };
 
   const handleSubmit = async (values: ILoginRequestModel) => {
@@ -25,6 +25,7 @@ const Login = () => {
       .login(values)
       .then(async (response) => {
         const responseData: ILoginResponseModel = response?.data?.data;
+        console.log('responseData', responseData);
         if (response?.data?.status) {
           toast.success(response?.data?.message);
           dispatch(adminLogin(responseData));

@@ -9,7 +9,7 @@ export interface ILoginResponseModel {
     phone?: string;
     role?: string;
     is_active?: boolean;
-    token: string;
+    authToken: string;
     first_name: string;
     last_name: string;
 }

@@ -2,10 +2,11 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from
 
 interface ConfirmBoxProps {
     title: string;
-    message: string;
-    openDialog: boolean;
-    handleSuccess: () => void;
-    handleDialogClose: () => void;
+    message?: string;
+    openDialog?: boolean;
+    handleSuccess?: () => void;
+    handleDialogClose?: () => void;
+    // getAllArea?: () => void;
 }
 
 const ConfirmBox: React.FC<ConfirmBoxProps> = ({ title, message, openDialog, handleSuccess, handleDialogClose }) => {

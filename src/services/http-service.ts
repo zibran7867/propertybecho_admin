@@ -80,7 +80,6 @@ axios.interceptors.response.use(
     },
     (error: AxiosErrors) => {
         hideLoader();
-
         switch (error.response?.status) {
             case HttpStatusCode.BadRequest:
                 toast.error(error?.response?.data?.message);

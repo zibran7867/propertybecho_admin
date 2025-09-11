@@ -16,6 +16,14 @@ export enum ProviderStatus {
   Declined = "declined",
   Blocked = "blocked",
 }
+export enum ActiveOrInactive {
+  Active = "active",
+  Inactive = "inactive",
+}
+export enum ActiveOrInactiveColor {
+  active = "#209563",
+  inactive = "#c34a41",
+}
 
 export enum ProviderStatusColor {
   pending = "#d27b3a",

@@ -62,7 +62,7 @@ const TableFooter: React.FC<ITableFooterProps> = ({
                 showControls
                 initialPage={1}
                 classNames={{
-                    cursor: "text-black text-base",
+                    cursor: "text-white text-base",
                 }}
                 color="primary"
                 variant="faded"

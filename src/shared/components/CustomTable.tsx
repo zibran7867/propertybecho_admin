@@ -436,7 +436,7 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                 )}
             >
                 <TableHeader columns={columns}>
-
+                    
                     {(column: IColumn) => (
                         <TableColumn
                             key={column?.data}

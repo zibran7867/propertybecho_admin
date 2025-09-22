@@ -2,12 +2,18 @@
 import { AxiosResponse } from "axios";
 import { ApiResponseModel } from "./api";
 import httpService from "./http-service";
-import { SearchResult } from "../models/base-type";
+import { Pagination, SearchResult } from "../models/base-type";
+import { SortDescriptor } from "@heroui/react";
 
 const endPointBaseURL = `area`;
 
-const getAllAreas = async (): Promise<AxiosResponse<ApiResponseModel<SearchResult<any>>>> =>
-    httpService.get<ApiResponseModel<any>>(`${endPointBaseURL}/`);
+const getAllAreas = async (
+    status?: string, 
+    search?: string,
+    pagination?: Pagination,
+    sort?: SortDescriptor,
+): Promise<AxiosResponse<ApiResponseModel<SearchResult<any>>>> =>
+    httpService.get<ApiResponseModel<any>>(`${endPointBaseURL}/?status=${status ?? ""}&search=${search ?? ''}&limit=${pagination?.limit ?? 10}&page=${pagination?.page ?? 1}`);
 
 const AddArea = async (requestBody: any): Promise<AxiosResponse<ApiResponseModel<SearchResult<any>>>> =>
     httpService.post<ApiResponseModel<any>>(`${endPointBaseURL}/`, requestBody);

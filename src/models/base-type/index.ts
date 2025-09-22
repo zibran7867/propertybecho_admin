@@ -26,7 +26,7 @@ export interface IColumn {
     width?: number;
     /* For css of column */
     className?: string;
-    datas? : string;
+    datas?: string;
     dataset?: string;
 }
 
@@ -37,7 +37,9 @@ export interface IOrder {
 
 export interface SearchResult<T> {
     rows: T[];
+    currentPage: number;
     total: number;
+    totalPages: number;
 }
 
 export interface Pagination {

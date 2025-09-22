@@ -1,7 +1,7 @@
 import React from "react";
 import { IColumn, Pagination } from "../../models/base-type";
 import CustomTable from "../../shared/components/CustomTable"
-import { Button } from "@heroui/react";
+import { Button, SortDescriptor } from "@heroui/react";
 import { Digits } from "../../shared/enums/digits";
 import { PAGINATION } from "../../shared/constants/pagination";
 import DialogForm from "../../shared/components/DialogForm";
@@ -14,12 +14,7 @@ import { Field, Form, Formik } from "formik";
 import { debounce } from 'lodash';
 import { CustomInput, CustomSelect } from "../../shared/customFormField";
 import { ActiveOrInactive } from "../../shared/enums/status";
-
-interface AreaFilter {
-  search?: string;
-  status?: string;
-  pagination?: string
-}
+import { AreaFilter } from "../../shared/constants/filters";
 
 const AreaManagement = () => {
   const [data, setData] = React.useState([]);
@@ -28,6 +23,7 @@ const AreaManagement = () => {
   const [openConfirmDialogDelete, setOpenConfirmDialogDelete] = React.useState(false);
   const areaRef = React.useRef<AreaModel | null>(null);
   const formRef = React.useRef<{ values: AreaFilter } | null>(null);
+  const sortRef = React.useRef<SortDescriptor>({ column: "", direction: "ascending" });
 
   // Refs for pagination/sorting
   const totalCountRef = React.useRef(Digits.One);
@@ -54,14 +50,12 @@ const AreaManagement = () => {
   };
 
   const getAllArea = async (filter?: AreaFilter) => {
-    debugger
     await areaService
       .getAllAreas(
         filter?.status ? filter?.status : '',
         filter?.search ? filter?.search : '',
         pageRef?.current,
-        // sortRef.current ? sortRef.current : undefined
-      )
+        sortRef?.current)
       .then((response) => {
         const responseData: any = response?.data;
         console.log("Area responseData", response)
@@ -111,6 +105,11 @@ const AreaManagement = () => {
   const onAreaAdd = () => {
     handleDialogClose();
     getAllArea();
+  };
+
+  const handleSetSortDetails = async (filter: AreaFilter, sortData: SortDescriptor) => {
+    sortRef.current = sortData;
+    await getAllArea(filter || initialState);
   };
 
   const debouncedResults = React.useMemo(() => {
@@ -204,7 +203,7 @@ const AreaManagement = () => {
                     className="form-input w-[300px] h-[50px] mt-2"
                   />
 
-                  <Field
+                  {/* <Field
                     placeholder="Select Status"
                     name="status"
                     value={values?.status}
@@ -225,7 +224,7 @@ const AreaManagement = () => {
                       debouncedResults(formRef.current?.values);
                     }}
                     className="form-input w-[300px] h-[50px"
-                  />
+                  /> */}
                 </div>
 
 
@@ -255,7 +254,7 @@ const AreaManagement = () => {
           totalCountRef={totalCountRef}
           pageRef={pageRef}
           formRef={formRef}
-          // sortRef={sortRef.current}
+          sortRef={sortRef}
           Edit
           onEditClickReceived={handleEditClick}
           Delete
@@ -263,7 +262,7 @@ const AreaManagement = () => {
           // View
           // onViewClickReceived={handleViewClick}
           onSetPageDetailsReceived={handleSetPageDetails}
-          // onSortDetailsReceived={handleSetSortDetails}
+          onSortDetailsReceived={handleSetSortDetails}
           onStatusChangeClickReceived={handleStatusChange}
         />
       </div>

@@ -18,16 +18,36 @@ export const sidebarRoutes: ISidebarData[] = [
     image: "/images/Dashboard.svg",
   },
   {
-    module: Modules.Dashboard,
+    module: Modules.Address_Management,
     route: Routing.Area_Management,
     name: "Area Management",
     image: "/images/Dashboard.svg",
   },
   {
-    module: Modules.Dashboard,
+    module: Modules.Builder_Management,
     route: Routing.Builder_Management,
     name: "Builder Management",
     image: "/images/Dashboard.svg",
+  },
+  {
+    module: Modules.Users,
+    route: Routing.Users,
+    name: "Users",
+    image: "/images/Dashboard.svg",
+    childs: [
+      {
+        module: Modules.Users,
+        route: Routing.Users,
+        name: "Users",
+        image: "/images/Dashboard.svg",
+      },
+      {
+        module: Modules.Brokers,
+        route: Routing.Brokers,
+        name: "Brokers",
+        image: "/images/Dashboard.svg",
+      },
+    ],
   },
 ];
 

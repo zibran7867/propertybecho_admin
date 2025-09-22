@@ -7,6 +7,8 @@ export const Routing = {
   Dashboard: `${PATH_PREFIX}/dashboard`,
   Builder_Management: `${PATH_PREFIX}/builder_management`,
   Area_Management: `${PATH_PREFIX}/area_management`,
+  Users: `${PATH_PREFIX}/users`,
+  Brokers: `${PATH_PREFIX}/brokers`,
 
   ErrorPage: `${PATH_PREFIX}/error`,
   NotFound: `${PATH_PREFIX}/not-found`,

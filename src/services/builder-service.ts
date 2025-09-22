@@ -2,12 +2,19 @@
 import { AxiosResponse } from "axios";
 import { ApiResponseModel } from "./api";
 import httpService from "./http-service";
-import { SearchResult } from "../models/base-type";
+import { Pagination, SearchResult } from "../models/base-type";
+import { SortDescriptor } from "@heroui/react";
+import { Sorting } from "../shared/constants/pagination";
 
 const endPointBaseURL = `builder`;
 
-const getAllBuilders = async (): Promise<AxiosResponse<ApiResponseModel<any>>> =>
-    httpService.get<ApiResponseModel<any>>(`${endPointBaseURL}/`);
+const getAllBuilders = async (
+    search?: string,
+    status?: string,
+    pagination?: Pagination,
+    sort?: SortDescriptor
+): Promise<AxiosResponse<ApiResponseModel<any>>> =>
+    httpService.get<ApiResponseModel<any>>(`${endPointBaseURL}/?search=${search ?? ''}&status=${status ?? ""}&limit=${pagination?.limit ?? 10}&page=${pagination?.page ?? 1}&sortOrder=${sort?.direction ? Sorting[sort?.direction] : ""}`);
 
 const AddBuilder = async (requestBody: any): Promise<AxiosResponse<ApiResponseModel<SearchResult<any>>>> =>
     httpService.post<ApiResponseModel<any>>(`${endPointBaseURL}/`, requestBody);
